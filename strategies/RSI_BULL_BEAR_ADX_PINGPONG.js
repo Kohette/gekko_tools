@@ -90,7 +90,7 @@ var strat = {
 			direction: 'none',
 			longPos: false, // this will be false or a price if we already have a long position
 			pingPong : {
-				gainsPercentage: 2 // when we want to close the long position?
+				gainsPercentage: this.settings.PINGPONG_GAINS_PERCENTAGE // when we want to close the long position?
 			}
 		};
 	
