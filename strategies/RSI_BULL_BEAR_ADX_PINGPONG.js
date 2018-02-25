@@ -228,7 +228,7 @@ var strat = {
 			*/
 			//if (this.trend.direction == 'up') return;
 			
-			if (this.candle.close < (this.trend.longPos - (this.trend.longPos * (this.trend.pingPong.gainsPercentage * 3) / 100))) this.trend.longPos = this.candle.close; 
+			if (this.candle.close < (this.trend.longPos - (this.trend.longPos * (this.trend.pingPong.gainsPercentage / 3) / 100))) this.trend.longPos = this.candle.close; 
 						
 			/**
 			* Si no tenemos un porcentage de ganancias salimos de aqui
