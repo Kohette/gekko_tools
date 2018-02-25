@@ -83,7 +83,10 @@ var strat = {
 		var trend = {
 			duration: 0,
 			direction: 'none',
-			longPos: false,
+			longPos: false, // this will be false or a price if we already have a long position
+			pingPong : {
+				gainsPercentage: 2 // when we want to close the long position?
+			}
 		};
 	
 		this.trend = trend;
@@ -171,6 +174,8 @@ var strat = {
 			this.trend.direction = 'up';
 			this.advice('long');
 			if( this.debug ) log.info('Going long');
+		} else {
+			this.pingPong();
 		}
 		
 		if( this.debug )
@@ -191,6 +196,8 @@ var strat = {
 			this.trend.direction = 'down';
 			this.advice('short');
 			if( this.debug ) log.info('Going short');
+		} else {
+			this.pingPong();
 		}
 		
 		if( this.debug )
@@ -199,6 +206,54 @@ var strat = {
 			log.info('Short since', this.trend.duration, 'candle(s)');
 		}
 	},
+	
+	pingPong: function() {
+		
+		/**
+		* Si actualmente tenemos una posicion long abierta vamos a comprobar si el precio 
+		* actual del asset es un <gainsPercentage> más alto (trend.long + %gainsPercentage >= currentPrice)
+		* y si es así cerramos la posición.
+		*/
+		if (this.trend.longPos) {
+			
+			/**
+			* Si tenemos una posicion long abierta pero la tendencia actual es bullish entonces 
+			* no hacemos nada y dejamos que siga subiendo
+			*/
+			if (this.trend.direction == 'up') return;
+			
+			/**
+			* Si no tenemos un porcentage de ganancias salimos de aqui
+			*/
+			if () return;
+			
+			/**
+			* Si hemos llegado hasta aqui significa que tenemos un long abierto, la tendencia actual es 
+			* bajista y tenemos un <gainsPercentage> de ganancias, por lo tanto cerramos la posicion
+			* para recoger ganancias
+			*/
+			this.advice('short');
+		
+		
+		/**
+		* Si hemos llegado hasta aqui significa que no tenemos ninguna posicion long abierta, por lo tanto 
+		* podemos aprovechar para abrir una nueva posicion cuando sea el momento propicio
+		*/
+		} else {
+			
+			/**
+			 * Si estamos en tendencia bajista salimos de aqui sin hacer nada
+			 */
+			if (this.trend.direction == 'down') return;
+			
+			/**
+			* Si hemos llegado hasta aqui significa que se cumple los requisitos necesarios para volver a 
+			* abrir una posicion long, por lo tanto ejecutamos un long
+			*/
+			this.advice('long');
+			
+		}
+	}
 	
 	
 	/* END backtest */
