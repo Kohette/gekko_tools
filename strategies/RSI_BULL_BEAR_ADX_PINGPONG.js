@@ -264,7 +264,7 @@ var strat = {
 			this.advice('long');
 			
 		}
-	}
+	},
 	
 	
 	/* END backtest */
