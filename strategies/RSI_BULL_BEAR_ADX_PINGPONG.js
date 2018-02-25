@@ -229,7 +229,7 @@ var strat = {
 			* Si tenemos una posicion long abierta pero la tendencia actual es bullish entonces 
 			* no hacemos nada y dejamos que siga subiendo
 			*/
-			if (this.trend.direction == 'up') return;
+			//if (this.trend.direction == 'up') return;
 			
 			/**
 			* Si no tenemos un porcentage de ganancias salimos de aqui
@@ -255,7 +255,7 @@ var strat = {
 			* Si estamos en tendencia bajista salimos de aqui sin hacer nada, asi dejamos que siga 
 			* bajando y solo actuamos cuando la tendencia cambie a alcista (bullish).
 			*/
-			if (this.trend.direction == 'down') return;
+			//if (this.trend.direction == 'down') return;
 			
 			/**
 			* Si hemos llegado hasta aqui significa que se cumple los requisitos necesarios para volver a 
