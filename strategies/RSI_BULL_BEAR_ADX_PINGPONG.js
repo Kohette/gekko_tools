@@ -144,7 +144,6 @@ var strat = {
 				
 			if( rsi > rsi_hi ) this.short();
 			else if( rsi < rsi_low ) this.long();
-			else this.pingPong();
 			
 			if(this.debug) this.lowHigh( rsi, 'bear' );
 		}
@@ -162,7 +161,7 @@ var strat = {
 				
 			if( rsi > rsi_hi ) this.short();
 			else if( rsi < rsi_low )  this.long();
-			else this.pingPong();
+			
 			if(this.debug) this.lowHigh( rsi, 'bull' );
 		}
 		
