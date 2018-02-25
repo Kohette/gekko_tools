@@ -257,6 +257,12 @@ var strat = {
 			//if (this.trend.direction == 'down') return;
 			
 			/**
+			* Si ha bajado al menos un <gains_percentage> abrimos un nuevo long
+			*/
+			if (this.candle.close < (this.trend.longPos - (this.trend.longPos * this.trend.pingPong.gainsPercentage / 100) )) return;
+
+			
+			/**
 			* Si hemos llegado hasta aqui significa que se cumple los requisitos necesarios para volver a 
 			* abrir una posicion long, por lo tanto ejecutamos un long y ademas guardamos el precio de la 
 			* candle actual para saber a que precio hemos iniciado el long.
