@@ -254,7 +254,7 @@ var strat = {
 			* Si estamos en tendencia bajista salimos de aqui sin hacer nada, asi dejamos que siga 
 			* bajando y solo actuamos cuando la tendencia cambie a alcista (bullish).
 			*/
-			//if (this.trend.direction == 'down') return;
+			if (this.trend.direction == 'down') return;
 			
 			/**
 			* Si ha bajado al menos un <gains_percentage> abrimos un nuevo long
