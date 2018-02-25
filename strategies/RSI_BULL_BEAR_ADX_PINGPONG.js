@@ -5,6 +5,11 @@
 	-
 	(CC-BY-SA 4.0) Tommie Hansen
 	https://creativecommons.org/licenses/by-sa/4.0/
+	
+	UPDATE:
+	3. Add pingPong for sideways market
+	
+	Rafael Martín.
 */
 
 // req's
@@ -18,7 +23,7 @@ var strat = {
 	init: function()
 	{
 		// core
-		this.name = 'RSI Bull and Bear + ADX';
+		this.name = 'RSI Bull and Bear + ADX + PingPong';
 		this.requiredHistory = config.tradingAdvisor.historySize;
 		this.resetTrend();
 		
@@ -172,6 +177,7 @@ var strat = {
 		{
 			this.resetTrend();
 			this.trend.direction = 'up';
+			this.trend.longPos = this.candle.close;
 			this.advice('long');
 			if( this.debug ) log.info('Going long');
 		} else {
@@ -194,6 +200,7 @@ var strat = {
 		{
 			this.resetTrend();
 			this.trend.direction = 'down';
+			this.trend.longPos = false;
 			this.advice('short');
 			if( this.debug ) log.info('Going short');
 		} else {
@@ -225,31 +232,35 @@ var strat = {
 			/**
 			* Si no tenemos un porcentage de ganancias salimos de aqui
 			*/
-			if () return;
+			if (this.candle.close < (this.trend.longPos + (this.trend.longPos * this.trend.pingPong.gainsPercentage / 100) )) return;
 			
 			/**
 			* Si hemos llegado hasta aqui significa que tenemos un long abierto, la tendencia actual es 
 			* bajista y tenemos un <gainsPercentage> de ganancias, por lo tanto cerramos la posicion
-			* para recoger ganancias
+			* para recoger ganancias y ponemos el longPos en false.
 			*/
+			this.trend.longPos = false;
 			this.advice('short');
 		
 		
 		/**
 		* Si hemos llegado hasta aqui significa que no tenemos ninguna posicion long abierta, por lo tanto 
-		* podemos aprovechar para abrir una nueva posicion cuando sea el momento propicio
+		* podemos aprovechar para abrir una nueva posicion cuando sea el momento propicio.
 		*/
 		} else {
 			
 			/**
-			 * Si estamos en tendencia bajista salimos de aqui sin hacer nada
-			 */
+			* Si estamos en tendencia bajista salimos de aqui sin hacer nada, asi dejamos que siga 
+			* bajando y solo actuamos cuando la tendencia cambie a alcista (bullish).
+			*/
 			if (this.trend.direction == 'down') return;
 			
 			/**
 			* Si hemos llegado hasta aqui significa que se cumple los requisitos necesarios para volver a 
-			* abrir una posicion long, por lo tanto ejecutamos un long
+			* abrir una posicion long, por lo tanto ejecutamos un long y ademas guardamos el precio de la 
+			* candle actual para saber a que precio hemos iniciado el long.
 			*/
+			this.trend.longPos = this.candle.close;
 			this.advice('long');
 			
 		}
