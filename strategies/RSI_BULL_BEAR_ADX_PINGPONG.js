@@ -144,7 +144,7 @@ var strat = {
 				
 			if( rsi > rsi_hi ) this.short();
 			else if( rsi < rsi_low ) this.long();
-			else this.pingPong();
+			//else this.pingPong();
 			
 			if(this.debug) this.lowHigh( rsi, 'bear' );
 		}
@@ -259,7 +259,7 @@ var strat = {
 			/**
 			* Si ha bajado al menos un <gains_percentage> abrimos un nuevo long
 			*/
-			if (this.candle.close < (this.trend.longPos - (this.trend.longPos * this.trend.pingPong.gainsPercentage / 100) )) return;
+			//if (this.candle.close < (this.trend.longPos - (this.trend.longPos * this.trend.pingPong.gainsPercentage / 100) )) return;
 
 			
 			/**
